@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 from torch.utils.data import Dataset, DataLoader
 from torchvision import transforms, utils
 
+# new subclass for class dataset
 class SIGN(Dataset):
     def __init__(self,csv_file,height,width, transforms=None):
         self.data = pd.read_csv(csv_file)
@@ -27,11 +28,13 @@ class SIGN(Dataset):
     def __len__(self):
        return len(self.data.index)
 
+#file path on comuter
 trainset = 'SIGN/sign_mnist_train.csv'
 transformations = transforms.Compose([transforms.ToTensor()])
 SIGN_train = \
         SIGN(trainset, 28, 28, transformations)
 
+#plot item 7
 x,x_label = SIGN_train.__getitem__(7)
 img=x.view(28,28)*255
 img_np = img.numpy()
