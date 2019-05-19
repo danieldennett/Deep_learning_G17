@@ -83,9 +83,9 @@ class Net(nn.Module):
 # get some random training images
 if __name__ == '__main__':
     dataiter = iter(trainloader)
-    print("a")
+#    print("a")
     images, labels = dataiter.next()
-    print("b")
+#    print("b")
 
     # show images
     imshow(torchvision.utils.make_grid(images))
@@ -108,7 +108,7 @@ if __name__ == '__main__':
     # ------------ Main training loop --------
     # ----------------------------------------
 
-    for epoch in range(2):  # loop over the dataset multiple times
+    for epoch in range(1):  # loop over the dataset multiple times
         running_loss = 0.0
         for i, data in enumerate(trainloader, 0):
             # get the inputs
@@ -162,23 +162,32 @@ if __name__ == '__main__':
 
     print('Accuracy of the network on the test images: %d %%' % (
         100 * correct / total))
+       
 
-    class_correct = list(0. for i in range(N_classes))
-    class_total = list(0. for i in range(N_classes))
-    with torch.no_grad():
-        for data in testloader:
-            images, labels = data
-            outputs = net(images)
-            _, predicted = torch.max(outputs, 1)
-            c = (predicted == labels).squeeze()
-            for i in range(4):
-                label = labels[i]
-                class_correct[label] += c[i].item()
-                class_total[label] += 1
-
-
-    for i in range(N_classes):
-        if i == 9 or i == 25:   # skip J and Z since they are not included
-            pass
-        else:
-            print('Accuracy of %5s : %2d %%' % (classes[i], 100 * class_correct[i] / class_total[i]))
+#    class_correct = list(0. for i in range(N_classes))
+#    class_total = list(0. for i in range(N_classes))
+#    with torch.no_grad():
+#        for data in testloader:
+#            images, labels = data
+#            outputs = net(images)
+#            _, predicted = torch.max(outputs, 1)
+#            c = (predicted == labels).squeeze()
+#            for i in range(4):
+#                label = labels[i]
+#                class_correct[label] += c[i].item()
+#                class_total[label] += 1
+#
+#
+#    for i in range(N_classes):
+#        if i == 9 or i == 25:   # skip J and Z since they are not included
+#            pass
+#        else:
+#            print('Accuracy of %5s : %2d %%' % (classes[i], 100 * class_correct[i] / class_total[i]))
+    
+from convolution_visualization import FilterVisualizer
+    
+layer = 40
+flter = 265
+FV = FilterVisualizer(size=56, upscaling_steps=12, upscaling_factor=1.2)
+FV.visualize(layer, flter, blur=5)
+    
