@@ -14,6 +14,22 @@ Created on Thu May 16 16:25:55 2019
 
 #       https://towardsdatascience.com/how-to-visualize-convolutional-features-in-40-lines-of-code-70b7d87b0030
 
+
+from os import path
+from wheel.pep425tags import get_abbr_impl, get_impl_ver, get_abi_tag
+platform = '{}{}-{}'.format(get_abbr_impl(), get_impl_ver(), get_abi_tag())
+
+accelerator = 'cu90' if path.exists('/opt/bin/nvidia-smi') else 'cpu'
+
+import torch
+print(torch.__version__)
+print(torch.cuda.is_available())
+
+from fastai.conv_learner import *
+from cv2 import resize 
+#%matplotlib inline
+
+
 class FilterVisualizer():
     def __init__(self, size=56, upscaling_steps=12, upscaling_factor=1.2):
         self.size, self.upscaling_steps, self.upscaling_factor = size, upscaling_steps, upscaling_factor
@@ -44,4 +60,9 @@ class FilterVisualizer():
         activations.close()
         
     def save(self, layer, filter):
-plt.imsave("layer_"+str(layer)+"_filter_"+str(filter)+".jpg", np.clip(self.output, 0, 1))
+        plt.imsave("layer_"+str(layer)+"_filter_"+str(filter)+".jpg", np.clip(self.output, 0, 1))
+
+layer = 40
+filter = 265
+FV = FilterVisualizer(size=56, upscaling_steps=12, upscaling_factor=1.2)
+FV.visualize(layer, filter, blur=5)
